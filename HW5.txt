@@ -1,0 +1,41 @@
+1.(λx. x x) ((λx y. y x) z (λx. x))
+
+normal order reduction:
+(λx. x x) ((λx y. y x) z (λx. x))
+>> [(λx. x x) ((λx y. y x) z (λx. x))]
+>> ((λx y. y x) z (λx. x)) ((λx y. y x) z (λx. x))
+>> [((λx.(λy. y x)) z (λx. x))] ((λx y. y x) z (λx. x))
+>> [(λy. y z (λx. x))] ((λx y. y x) z (λx. x))
+>> [(λx. x) z] ((λx y. y x) z (λx. x))
+>> z ((λx y. y x) z (λx. x))
+>> z [((λx.(λy. y x)) z (λx. x))]
+>> z [(λy. y z (λx. x))]
+>> z ((λx. x) z)
+>> z z
+
+applicative order reduction:
+(λx. x x) ((λx y. y x) z (λx. x))
+>> (λx. x x) ([(λx y. y x) z ](λx. x))
+>> (λx. x x) ([(λx.(λy. y x) z )](λx. x))
+>> (λx. x x) [ (λy. y z) (λx. x)]
+>> (λx. x x) [(λx. x) z]
+>> [(λx. x x) z]
+>> z z
+
+2.(λx y z. x z) (λz. z) ((λy. y) (λz. z)) x
+normal order reduction:
+(λx y z. x z) (λz. z) ((λy. y) (λz. z)) x
+>> [(λx.(λy.(λz. x z))) (λz. z)] ((λy. y) (λz. z)) x
+>> [(λy.(λz.(λz. z) z)) ((λy. y) (λz. z))] x
+>> [(λz.(λz. z) z)) x]
+>> [(λz. x) x]
+>> x
+
+applicative order reduction:
+(λx y z. x z) (λz. z) ((λy. y) (λz. z)) x
+>> (λx y z. x z) (λz. z) ([(λy. y) (λz. z)]) x
+>> [(λx.(λy.(λz. x z))) (λz. z)] (λz. z) x
+>> [(λy.(λz.(λz. z) z)) (λz. z)] x
+>> [(λz.(λz. z) z) x]
+>> [(λz. x) x]
+>> x
